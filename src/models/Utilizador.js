@@ -1,0 +1,23 @@
+import mongoose from 'mongoosse';
+
+const schema = new monoose.Schema(
+    {
+        nome: {type: String, required: true, trim: true},
+        email: {type: String, required: true, unique: true, lowercase: true, trim: true},
+        password: {type: String, required: true, select: false},
+        role: {type: String, enum: ['user', 'admin'], default: 'user'},
+    },
+    {
+        timestamps: true,
+        toJSON: {
+            transform: (_doc, ret) => {
+                delete ret.password;
+                delete ret.__v;
+                return ret;
+            },
+        },
+    }
+);
+
+
+export default mongoose.model('Utilizador', schema);
